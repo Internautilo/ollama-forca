@@ -19,7 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
         <!-- Navbar -->
-        <x-top-navbar />
+        <x-layout.top-navbar />
         <!-- /.navbar -->
 
         <!-- Content Wrapper. Contains page content -->
@@ -29,13 +29,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0"> Top Navigation <small>Example 3.0</small></h1>
+                            <h1 class="m-0">Jogo da Forca usando OLlama</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Layout</a></li>
-                                <li class="breadcrumb-item active">Top Navigation</li>
+                                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('home') }}">Teste</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('home') }}">Navbar</a></li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -67,6 +67,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- ./wrapper -->
 
-    <x-scripts />
+    <x-layout.scripts />
 </body>
 </html>
