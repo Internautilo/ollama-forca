@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Interfaces\Ollama;
 use Illuminate\Http\Client\ConnectionException;
 
 class OllamaApi extends Ollama
