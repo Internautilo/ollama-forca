@@ -21,3 +21,5 @@
 <script data-navigate-once src="{{asset('AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <!-- SimpleKeyboard -->
 <script data-navigate-once src="{{asset('hodgef-simple-keyboard/build/index.js')}}"></script>
+<!-- SweetAlert -->
+<script data-navigate-once src="{{asset('AdminLTE/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
