@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
+            $table->string('theme');
             $table->string('keyword');
             $table->mediumText('correct_letters')->nullable();
             $table->foreignId('user_id')->nullable()->references('id')->on('users');

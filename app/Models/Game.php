@@ -14,6 +14,7 @@ class Game extends Model
     protected $table = 'games';
 
     protected $fillable = [
+        'theme',
         'keyword',
         'correct_letters',
         'user_id',
