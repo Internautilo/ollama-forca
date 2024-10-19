@@ -11,7 +11,7 @@ class Game extends Model
 {
     use HasFactory, SoftDeletes, HasTimestamps;
 
-    protected $table = 'jogos';
+    protected $table = 'games';
 
     protected $fillable = [
         'keyword',
