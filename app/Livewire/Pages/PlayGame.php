@@ -10,6 +10,10 @@ class PlayGame extends Component
     public string|int $id;
     public Game $game;
 
+    public $listeners = [
+        'redirect-to-route' => 'redirectRoute'
+    ];
+
     public function mount($id = null)
     {
         if (is_null($id)) {

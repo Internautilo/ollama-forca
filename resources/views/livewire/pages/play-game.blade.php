@@ -69,7 +69,29 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                     texto[i] = '*';
                 }
             }
-            document.querySelector('#keyword').textContent = texto.join('');
+            texto = texto.join('');
+            document.querySelector('#keyword').textContent = texto;
+            if (texto === keyword) {
+                finalizado = true;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Voce concluiu o desafio!',
+                    position: 'center',
+                    showDenyButton: true,
+                    confirmButtonText: 'Lista de Jogos',
+                    denyButtonText: 'Continuar',
+                    customClass: {
+                        actions: 'my-actions',
+                        confirmButton: 'order-2',
+                        denyButton: 'order-1 bg-secondary',
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.dispatch('redirect-to-route', {name: 'list-games', navigate: true});
+                    }
+                });
+                return;
+            }
             Swal.fire({
                 icon: 'success',
                 title: 'Voce acertou!',
