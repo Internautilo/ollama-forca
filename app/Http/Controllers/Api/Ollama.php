@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
