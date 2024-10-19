@@ -14,8 +14,8 @@ class Game extends Model
     protected $table = 'jogos';
 
     protected $fillable = [
-        'palavra_chave',
-        'letras-corretas',
+        'keyword',
+        'correct_letters',
         'user_id',
     ];
 
