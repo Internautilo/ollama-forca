@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('palavra_chave');
-            $table->mediumText('letras-corretas')->nullable();
+            $table->string('keyword');
+            $table->mediumText('correct_letters')->nullable();
             $table->foreignId('user_id')->nullable()->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
