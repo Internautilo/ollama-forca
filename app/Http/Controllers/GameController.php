@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jogo;
+use App\Models\Game;
 use Illuminate\Http\Request;
 
-class JogoController extends Controller
+class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class JogoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Jogo $jogo)
+    public function show(Game $game)
     {
         //
     }
@@ -42,7 +42,7 @@ class JogoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Jogo $jogo)
+    public function edit(Game $game)
     {
         //
     }
@@ -50,7 +50,7 @@ class JogoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Jogo $jogo)
+    public function update(Request $request, Game $game)
     {
         //
     }
@@ -58,7 +58,7 @@ class JogoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Jogo $jogo)
+    public function destroy(Game $game)
     {
         //
     }
