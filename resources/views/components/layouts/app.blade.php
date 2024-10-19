@@ -15,6 +15,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('AdminLTE/plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('AdminLTE/dist/css/adminlte.min.css')}}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{asset('AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <!-- SimpleKeyboard -->
+    <link rel="stylesheet" href="{{asset('hodgef-simple-keyboard/build/css/index.css')}}">
 </head>
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
@@ -35,7 +41,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ route('home') }}" wire:navigate >Home</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('new-game') }}" wire:navigate >Novo Jogo</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}" wire:navigate >Navbar</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('list-games') }}" wire:navigate >Lista de Jogos</a></li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
