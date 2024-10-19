@@ -33,9 +33,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}">Teste</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}">Navbar</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('home') }}" wire:navigate >Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('new-game') }}" wire:navigate >Novo Jogo</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('home') }}" wire:navigate >Navbar</a></li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
