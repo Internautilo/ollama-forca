@@ -8,8 +8,8 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="tema">Tema do Jogo</label>
-                    <textarea class="form-control" id="tema" name="tema" wire:model="theme"
-                              placeholder="Digite um tema para a palavra do jogo"></textarea>
+                    <input class="form-control" id="tema" name="tema" wire:model="theme"
+                              placeholder="Digite um palavra ou frase para criar a palavra chave do jogo">
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-center align-items-center">

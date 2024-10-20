@@ -21,16 +21,19 @@ function proccessKeyword(string $keyword, string $foundLetters): string
         <form>
             <div class="card-body">
                 <div class="form-group d-inline">
-                    <label>Tema:</label>
+                    <strong>Tema:</strong>
                     '{{ $game->theme }}'
                 </div>
                 <div class="d-flex justify-content-center align-items-center mt-5 mb-2">
                     <h5>Palavra</h5>
                 </div>
-                <div class="d-flex justify-content-center align-items-center mb-5">
+                <div class="d-flex justify-content-center align-items-center mb-2">
                     <h2 id="keyword">{{ proccessKeyword($game->keyword, (empty($game->correct_letters)) ? 'e,s,a,b,c' : $game->correct_letters) }}</h2>
                 </div>
-                <div class="form-group mt-5 d-flex justify-content-center">
+                <div class="mb-1">
+                    <strong>Dica: </strong> {{ $game->tips }}
+                </div>
+                <div class="form-group d-flex justify-content-center">
                     <input type="hidden" id="key" name="key" class="input" placeholder="Tap on the virtual keyboard to start" />
                     <div class="simple-keyboard"></div>
                 </div>
