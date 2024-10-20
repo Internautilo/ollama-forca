@@ -17,6 +17,9 @@ class Game extends Model
         'theme',
         'keyword',
         'correct_letters',
+        'tips',
+        'completed',
+        'completed_at',
         'user_id',
     ];
 
