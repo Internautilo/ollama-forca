@@ -15,9 +15,28 @@ class OllamaApi extends Ollama
      */
     public static function Prompt(string $prompt): string
     {
-        $apiInterface = new self('llama3.2', 'http://localhost:11434', 'api/generate');
-        $prompt .= ". Me responda uma única palavra que tenha relação com o tema que foi descrito anteriormente";
-
+        $apiInterface = new self('llama3.2', 'http://localhost:11434', 'api/chat');
+        $apiInterface->addRole([
+            'role' => 'system',
+            'content' => "Você é o criador de um jogo da forca.
+                    Baseado no texto que o usuário enviar, me retorne APENAS um json com os seguintes dados:
+                {
+                    keyword: 'string (a palavra que sera usada no jogo da forca)',
+                    tips: 'string (dicas para a keyword)',
+                }",
+        ]);
+        $apiInterface->addRole([
+            'role' => 'user',
+            'content' => $prompt,
+        ]);
+        $apiInterface->jsonResponse(true);
+//        $prompt .= "Baseado no texto que o usuário enviar, me retorne APENAS um json com os seguintes dados:
+//            {
+//                theme: 'contém SOMENTE UMA PALAVRA relacionada ao texto. Caso existam MENOS QUE 10 palavras no texto, a palavra do theme NÃO PODE ESTAR no texto anterior.',
+//                tips: 'contém NO MÍNIMO TRÊS palavras SEPARADAS POR UMA ÚNICA VÍRGULA CADA. As palavras que você escolher NÃO PODEM ESTAR no texto anterior.',
+//                response: 'contém SOMENTE quaisquer considerações finais que você queira dar (PODE SER VAZIO)',
+//            }
+//        ";
         return $apiInterface->sendPrompt($prompt);
     }
 }

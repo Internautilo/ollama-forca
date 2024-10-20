@@ -10,7 +10,9 @@ abstract class Ollama
     protected string $model;
     protected string $url;
     protected bool $stream = false;
+    protected bool $jsonResponse = false;
     protected array $payload;
+    protected array $roles = [];
 
     function __construct(string $model, string $url, string $endpoint = null)
     {
@@ -28,6 +30,25 @@ abstract class Ollama
         $this->stream = $stream;
     }
 
+    public function jsonResponse(bool $jsonResponse): void
+    {
+        $this->jsonResponse = $jsonResponse;
+    }
+
+    /**
+     * @param array $role ['role' => 'user', 'content' => 'message]
+     *
+     * @return void
+     */
+    public function addRole(array $role): void
+    {
+        $newRole = new \stdClass();
+        $newRole->role = $role['role'];
+        $newRole->content = $role['content'];
+
+        $this->roles[] = $newRole;
+    }
+
     public function setModel(string $model): void
     {
         $this->model = $model;
@@ -42,9 +63,19 @@ abstract class Ollama
     {
         $data = [
             'model' => $this->model,
-            "prompt" => $prompt,
             'stream' => $this->stream,
+            'keep_alive' => 0,
+            "prompt" => $prompt,
         ];
+
+        if (count($this->roles) > 0) {
+            unset($data['prompt']);
+            $data['messages'] = $this->roles;
+        }
+
+        if ($this->jsonResponse) {
+            $data['format'] = 'json';
+        }
 
         $this->payload = $data;
     }
@@ -65,6 +96,9 @@ abstract class Ollama
             ])->post($this->url, $this->payload);
 
             $jsonResponse = $response->json();
+            if ($jsonResponse['message']) {
+                return $jsonResponse['message']['content'] ?? 'No response from the API'; // Default value if 'response' key doesn't exist
+            }
             return $jsonResponse['response'] ?? 'No response from the API'; // Default value if 'response' key doesn't exist
         } catch (\Exception $e) {
             throw new ConnectionException('Failed to connect to the API: ' . $e->getMessage());

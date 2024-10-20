@@ -4,11 +4,12 @@
         <div class="card-header">
             <h3 class="card-title">Criação de Jogo</h3>
         </div>
-        <form>
+        <form wire:submit="save">
             <div class="card-body">
                 <div class="form-group">
                     <label for="tema">Tema do Jogo</label>
-                    <textarea class="form-control" id="tema" name="tema" placeholder="Digite um tema para a palavra do jogo"></textarea>
+                    <textarea class="form-control" id="tema" name="tema" wire:model="theme"
+                              placeholder="Digite um tema para a palavra do jogo"></textarea>
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-center align-items-center">

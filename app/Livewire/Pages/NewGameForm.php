@@ -21,19 +21,22 @@ class NewGameForm extends Component
      */
     public function save(): void
     {
-        if (!auth()->check()) {
-            throw new \Exception('User is not authenticated');
-        }
+//        if (!auth()->check()) {
+//            throw new \Exception('User is not authenticated');
+//        }
 
         if ($this->theme !== '') {
             try {
                 $response = OllamaApi::Prompt($this->theme);
-                $gameId = Game::create([
-                    'keyword' => $response,
+                $response = json_decode($response, true);
+                $game = Game::create([
+                    'keyword' => preg_replace('/[^A-Z]/i', '', strtoupper($response['keyword'])),
+                    'theme' => $this->theme,
+                    'tips' => $response['tips'],
                     'user_id' => auth()->id(),
                 ]);
 
-                $this->dispatch('game-created', ['gameId' => $gameId]);
+                $this->redirectRoute('game', ['id' => $game->id]);
             } catch (\Exception $e) {
                 throw new \Exception("Failed to connect to the API: " . $e->getMessage());
             }
