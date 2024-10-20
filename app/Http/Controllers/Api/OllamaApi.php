@@ -30,13 +30,7 @@ class OllamaApi extends Ollama
             'content' => $prompt,
         ]);
         $apiInterface->jsonResponse(true);
-//        $prompt .= "Baseado no texto que o usuário enviar, me retorne APENAS um json com os seguintes dados:
-//            {
-//                theme: 'contém SOMENTE UMA PALAVRA relacionada ao texto. Caso existam MENOS QUE 10 palavras no texto, a palavra do theme NÃO PODE ESTAR no texto anterior.',
-//                tips: 'contém NO MÍNIMO TRÊS palavras SEPARADAS POR UMA ÚNICA VÍRGULA CADA. As palavras que você escolher NÃO PODEM ESTAR no texto anterior.',
-//                response: 'contém SOMENTE quaisquer considerações finais que você queira dar (PODE SER VAZIO)',
-//            }
-//        ";
+
         return $apiInterface->sendPrompt($prompt);
     }
 }

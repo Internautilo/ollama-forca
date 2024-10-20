@@ -97,9 +97,9 @@ abstract class Ollama
 
             $jsonResponse = $response->json();
             if ($jsonResponse['message']) {
-                return $jsonResponse['message']['content'] ?? 'No response from the API'; // Default value if 'response' key doesn't exist
+                return $jsonResponse['message']['content'] ?? 'No response from the API';
             }
-            return $jsonResponse['response'] ?? 'No response from the API'; // Default value if 'response' key doesn't exist
+            return $jsonResponse['response'] ?? 'No response from the API';
         } catch (\Exception $e) {
             throw new ConnectionException('Failed to connect to the API: ' . $e->getMessage());
         }
