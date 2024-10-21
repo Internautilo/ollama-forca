@@ -26,4 +26,9 @@ class ListGames extends Component
         $this->games = Game::All();
     }
 
+    public function deleteGame($id): void
+    {
+        Game::destroy($id);
+        $this->loadGames();
+    }
 }

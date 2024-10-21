@@ -85,8 +85,10 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                                         <a style="width: 45%" class="btn btn-default" wire:navigate
                                            href="{{ route("game", ['id' => $game->id]) }}"><i
                                                 class="fas fa-play"></i></a>
-                                        <a style="width: 45%" class="btn btn-danger" wire:navigate><i
-                                                class="fas fa-trash"></i></a>
+                                        <button onclick="Livewire.find('{{ $this->getId() }}').deleteGame({{ $game->id }})"
+                                                class="btn btn-danger" style="width: 45%">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach

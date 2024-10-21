@@ -23,6 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('hodgef-simple-keyboard/build/css/index.css')}}">
     <!-- SweetAlert -->
     <link rel="stylesheet" href="{{asset('AdminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+    @livewireStyles
 </head>
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
@@ -69,5 +70,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- ./wrapper -->
 
     <x-layout.scripts />
+    @livewireScripts
 </body>
 </html>
