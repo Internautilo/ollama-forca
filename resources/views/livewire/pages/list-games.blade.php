@@ -21,6 +21,19 @@ function calcPercentage(string $word, string $correctLetters, bool $descriptive 
     return 0;
 }
 
+function proccessKeyword(string $keyword, string $foundLetters): string
+{
+    $foundLetters = array_map('strtoupper', explode(',', $foundLetters));
+    for ($i = 0; $i < strlen($keyword); $i++) {
+        $currentLetter = strtoupper($keyword[$i]);
+
+        if (!in_array($currentLetter, $foundLetters)) {
+            $keyword[$i] = '*';
+        }
+    }
+    return $keyword;
+}
+
 @endphp
 
 <div class="container">
@@ -59,7 +72,7 @@ function calcPercentage(string $word, string $correctLetters, bool $descriptive 
                             @foreach($games as $game)
                                 <tr class="odd">
                                     <td class="" tabindex="0">{{ $game->theme }}</td>
-                                    <td>{{ $game->keyword }}</td>
+                                    <td>{{ proccessKeyword($game->keyword, (empty($game->correct_letters)) ? 'a,b,c' : $game->correct_letters) }}</td>
                                     <td>
                                         <div class="progress mb-2">
                                             <div class="progress-bar bg-danger" role="progressbar"
