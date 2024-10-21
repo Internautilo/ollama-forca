@@ -21,11 +21,21 @@ class PlayGame extends Component
             return;
         }
         $this->id = $id;
-        $this->game = Game::find($this->id);
+        $this->game = Game::findOrFail($this->id);
     }
 
     public function render()
     {
         return view('livewire.pages.play-game');
+    }
+
+    public function addLetter(string $letter): void
+    {
+        $letters = $this->game->correct_letters;
+        $letters .= ',' . $letter;
+        $letters = strtoupper($letters);
+
+        $this->game->correct_letters = $letters;
+        $this->game->save();
     }
 }

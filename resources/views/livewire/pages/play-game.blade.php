@@ -45,6 +45,7 @@ function proccessKeyword(string $keyword, string $foundLetters): string
 @script
 <script>
     const keyword = '{{ $game->keyword }}';
+    const $wire = Livewire.find('{{ $this->getId() }}');
     let letras = '{{ $game->correct_letters }}';
     let finalizado = false;
     if (letras === '') {
@@ -52,7 +53,6 @@ function proccessKeyword(string $keyword, string $foundLetters): string
     } else {
         letras = letras.trim().toUpperCase().split(',');
         const keyMap = new Map();
-        console.log(letras)
 
         for (let i = 0; i < keyword.length; i++) {
             const letra = keyword[i].toUpperCase();
@@ -63,7 +63,6 @@ function proccessKeyword(string $keyword, string $foundLetters): string
     }
 
     function replaceLetter(letter) {
-        console.log("Input changed", letter);
         if (keyword.indexOf(letter) !== -1 && !finalizado) {
             let texto = keyword.split('');
             letras.push(letter);
