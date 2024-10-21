@@ -28,7 +28,7 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                     <h5>Palavra</h5>
                 </div>
                 <div class="d-flex justify-content-center align-items-center mb-2">
-                    <h2 id="keyword">{{ proccessKeyword($game->keyword, (empty($game->correct_letters)) ? 'e,s,a,b,c' : $game->correct_letters) }}</h2>
+                    <h2 id="keyword">{{ proccessKeyword($game->keyword, ($game->correct_letters) ?: '') }}</h2>
                 </div>
                 <div class="mb-1">
                     <strong>Dica: </strong> {{ $game->tips }}
@@ -46,18 +46,20 @@ function proccessKeyword(string $keyword, string $foundLetters): string
 <script>
     const keyword = '{{ $game->keyword }}';
     let letras = '{{ $game->correct_letters }}';
-    if (letras === '') {
-        letras = 'e,x,s,a,b,c';
-    }
-    letras = letras.trim().toUpperCase().split(',');
-    const keyMap = new Map();
     let finalizado = false;
+    if (letras === '') {
+        letras = [];
+    } else {
+        letras = letras.trim().toUpperCase().split(',');
+        const keyMap = new Map();
+        console.log(letras)
 
-    for (let i = 0; i < keyword.length; i++) {
-        const letra = keyword[i].toUpperCase();
-        const found = letras.includes(letra);
+        for (let i = 0; i < keyword.length; i++) {
+            const letra = keyword[i].toUpperCase();
+            const found = letras.includes(letra);
 
-        keyMap.set(i, [keyword[i], found]);
+            keyMap.set(i, [keyword[i], found]);
+        }
     }
 
     function replaceLetter(letter) {
