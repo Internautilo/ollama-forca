@@ -23,6 +23,16 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                 <div class="form-group d-inline">
                     <strong>Tema:</strong>
                     '{{ $game->theme }}'
+                </div><br/>
+                <div class="form-group d-inline">
+                    <strong>Tentativas:</strong>
+                    ({{ count(explode(',', $game->tries)) }})
+                    {{ $game->tries }}
+                </div><br/>
+                <div class="form-group d-inline">
+                    <strong>Corretas:</strong>
+                    ({{ count(explode(',', $game->correct_letter)) }})
+                    {{ $game->correct_letters }}
                 </div>
                 <div class="d-flex justify-content-center align-items-center mt-5 mb-2">
                     <h5>Palavra</h5>
@@ -45,7 +55,15 @@ function proccessKeyword(string $keyword, string $foundLetters): string
 @script
 <script>
     const keyword = '{{ $game->keyword }}';
-    const $wire = Livewire.find('{{ $this->getId() }}');
+    let toastString = '{{ (!empty($_REQUEST['toast'])) ? $_REQUEST['toast'] : '' }}';
+    toastString = decodeHtmlEntities(toastString);
+    let toastParam = null;
+    if (toastString !== '') {
+        toastParam = JSON.parse(toastString);
+    }
+    if (toastParam) {
+        Swal.fire(toastParam);
+    }
     let letras = '{{ $game->correct_letters }}';
     let finalizado = false;
     if (letras === '') {
@@ -63,67 +81,80 @@ function proccessKeyword(string $keyword, string $foundLetters): string
     }
 
     function replaceLetter(letter) {
+        let letraCorreta = false;
+        let texto = keyword.split('');
         if (keyword.indexOf(letter) !== -1 && !finalizado) {
-            let texto = keyword.split('');
-            letras.push(letter);
-
-            for (let i = 0; i < texto.length; i++) {
-                const letra = texto[i];
-                if (!letras.includes(letra)) {
-                    texto[i] = '*';
-                }
-            }
-            texto = texto.join('');
-            document.querySelector('#keyword').textContent = texto;
-            if (texto === keyword) {
-                finalizado = true;
+            if (letras.indexOf(letter) !== -1) {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Voce concluiu o desafio!',
-                    position: 'center',
-                    showDenyButton: true,
-                    confirmButtonText: 'Lista de Jogos',
-                    denyButtonText: 'Continuar',
-                    customClass: {
-                        actions: 'my-actions',
-                        confirmButton: 'order-2',
-                        denyButton: 'order-1 bg-secondary',
-                    },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Livewire.dispatch('redirect-to-route', {name: 'list-games', navigate: true});
-                    }
+                    icon: 'warning',
+                    title: 'Voce já tentou essa letra!',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
                 });
                 return;
             }
+            letras.push(letter);
+            letraCorreta = true;
+        }
+        for (let i = 0; i < texto.length; i++) {
+            const letra = texto[i];
+            if (!letras.includes(letra)) {
+                texto[i] = '*';
+            }
+        }
+        texto = texto.join('');
+        document.querySelector('#keyword').textContent = texto;
+        if (texto === keyword) {
+            finalizado = true;
             Swal.fire({
                 icon: 'success',
-                title: 'Voce acertou!',
-                toast: true,
-                position: 'top-end',
-                timer: 1500,
-                timerProgressBar: true,
-                showConfirmButton: false,
+                title: 'Voce concluiu o desafio!',
+                position: 'center',
+                showDenyButton: true,
+                confirmButtonText: 'Lista de Jogos',
+                denyButtonText: 'Continuar',
+                customClass: {
+                    actions: 'my-actions',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-1 bg-secondary',
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.dispatch('redirect-to-route', {name: 'list-games', navigate: true});
+                }
+                Livewire.find('{{ $this->id() }}').dispatch('add-correct-letter', {letter: letter});
             });
-        } else if (finalizado) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Desafio ja foi concluído!',
-                toast: true,
-                position: 'top-end',
-                timer: 1500,
-                timerProgressBar: true,
-                showConfirmButton: false,
+            return;
+        }
+
+        if (letraCorreta) {
+            Livewire.find('{{ $this->id() }}').dispatch('add-correct-letter', {
+                letter: letter,
+                toast: JSON.stringify({
+                    icon: 'success',
+                    title: 'Voce acertou!',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                }),
             });
         } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Tente novamente!',
-                toast: true,
-                position: 'top-end',
-                timer: 1500,
-                timerProgressBar: true,
-                showConfirmButton: false,
+            Livewire.find('{{ $this->id() }}').dispatch('add-try', {
+                letter: letter,
+                toast: JSON.stringify({
+                    icon: 'error',
+                    title: 'Tente novamente!',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                }),
             });
         }
     }
@@ -153,6 +184,14 @@ function proccessKeyword(string $keyword, string $foundLetters): string
             ]
         },
     });
+
+    function decodeHtmlEntities(str) {
+        return str.replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">");
+    }
 
 
 </script>

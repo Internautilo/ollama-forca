@@ -9,12 +9,15 @@ class PlayGame extends Component
 {
     public string|int $id;
     public Game $game;
+    public string $toast;
 
     public $listeners = [
-        'redirect-to-route' => 'redirectRoute'
+        'redirect-to-route' => 'redirectRoute',
+        'add-try' => 'addTry',
+        'add-correct-letter' => 'addCorrectLetter',
     ];
 
-    public function mount($id = null)
+    public function mount($id = null, $toast = null)
     {
         if (is_null($id)) {
             $this->redirectRoute('list-games');
@@ -22,6 +25,9 @@ class PlayGame extends Component
         }
         $this->id = $id;
         $this->game = Game::findOrFail($this->id);
+        if (!is_null($toast)) {
+            $this->toast = $toast;
+        }
     }
 
     public function render()
@@ -29,13 +35,33 @@ class PlayGame extends Component
         return view('livewire.pages.play-game');
     }
 
-    public function addLetter(string $letter): void
+    public function addCorrectLetter(string $letter, string $toast = ''): void
     {
         $letters = $this->game->correct_letters;
-        $letters .= ',' . $letter;
+        $letters .= (($letters == '') ? $letter : ',' . $letter);
         $letters = strtoupper($letters);
 
         $this->game->correct_letters = $letters;
         $this->game->save();
+        $this->addTry($letter, $toast);
+    }
+
+    public function addTry(string $letter, string $toast = ''): void
+    {
+        $letters = $this->game->tries;
+        $letters .= (($letters == '') ? $letter : ',' . $letter);
+        $letters = strtoupper($letters);
+
+        $this->game->tries = $letters;
+        $this->game->save();
+        $this->updateGame();
+        $this->redirectRoute('game', ['id' => $this->id, 'toast' => $toast], navigate: true);
+    }
+
+    public function updateGame(string|int $id = null)
+    {
+        if (is_null($id)) {
+            $this->game = Game::findOrFail($this->id);
+        }
     }
 }
