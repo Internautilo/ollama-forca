@@ -81,21 +81,22 @@ function proccessKeyword(string $keyword, string $foundLetters): string
     }
 
     function replaceLetter(letter) {
+        if (letras.indexOf(letter) !== -1) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Voce já tentou essa letra!',
+                toast: true,
+                position: 'top-end',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+            return;
+        }
+
         let letraCorreta = false;
         let texto = keyword.split('');
         if (keyword.indexOf(letter) !== -1 && !finalizado) {
-            if (letras.indexOf(letter) !== -1) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Voce já tentou essa letra!',
-                    toast: true,
-                    position: 'top-end',
-                    timer: 1500,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                });
-                return;
-            }
             letras.push(letter);
             letraCorreta = true;
         }
@@ -123,9 +124,10 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Livewire.dispatch('redirect-to-route', {name: 'list-games', navigate: true});
+                    Livewire.dispatch('go-back-on-finish', {letter: letter});
+                } else {
+                    Livewire.find('{{ $this->id() }}').dispatch('add-correct-letter', {letter: letter});
                 }
-                Livewire.find('{{ $this->id() }}').dispatch('add-correct-letter', {letter: letter});
             });
             return;
         }

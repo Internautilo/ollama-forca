@@ -15,6 +15,7 @@ class PlayGame extends Component
         'redirect-to-route' => 'redirectRoute',
         'add-try' => 'addTry',
         'add-correct-letter' => 'addCorrectLetter',
+        'go-back-on-finish' => 'goBackOnFinish',
     ];
 
     public function mount($id = null, $toast = null)
@@ -54,14 +55,23 @@ class PlayGame extends Component
 
         $this->game->tries = $letters;
         $this->game->save();
-        $this->updateGame();
         $this->redirectRoute('game', ['id' => $this->id, 'toast' => $toast], navigate: true);
     }
 
-    public function updateGame(string|int $id = null)
+    public function goBackOnFinish(string $letter): void
     {
-        if (is_null($id)) {
-            $this->game = Game::findOrFail($this->id);
-        }
+        $letters = $this->game->tries;
+        $letters .= (($letters == '') ? $letter : ',' . $letter);
+        $letters = strtoupper($letters);
+        $this->game->tries = $letters;
+
+        $letters = $this->game->correct_letters;
+        $letters .= (($letters == '') ? $letter : ',' . $letter);
+        $letters = strtoupper($letters);
+        $this->game->correct_letters = $letters;
+
+        $this->game->save();
+
+        $this->redirectRoute('list-games', navigate: true);
     }
 }
