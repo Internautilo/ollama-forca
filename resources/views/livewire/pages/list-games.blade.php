@@ -72,6 +72,9 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                     aria-label="Platform(s): activate to sort column ascending">Progresso
                                 </th>
+                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                    aria-label="Platform(s): activate to sort column ascending">Tentativas
+                                </th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -87,6 +90,9 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                                             </div>
                                         </div>
                                         {{ calcPercentage($game->keyword, $game->correct_letters ?: '', true) }} Letras Encontradas
+                                    </td>
+                                    <td class="text-center">
+                                        ( {{ count(explode(',', $game->tries)) }} )
                                     </td>
                                     <td class="d-flex justify-content-around align-items-center">
                                         <a style="width: 45%" class="btn btn-default" wire:navigate
