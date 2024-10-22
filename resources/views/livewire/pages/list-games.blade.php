@@ -2,6 +2,13 @@
 
 function calcPercentage(string $word, string $correctLetters, bool $descriptive = false): float|string
 {
+    if ($correctLetters === '') {
+        if ($descriptive) {
+            return 0 . ' / ' . strlen($word);
+        }
+        return 0;
+    }
+
     $letrasCorretas = 0;
     $correctLettersArray = explode(',', $correctLetters);
     $uniqueLetters = array_unique(array_map('strtolower', $correctLettersArray));
@@ -72,14 +79,14 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                             @foreach($games as $game)
                                 <tr class="odd">
                                     <td class="" tabindex="0">{{ $game->theme }}</td>
-                                    <td>{{ proccessKeyword($game->keyword, (empty($game->correct_letters)) ? 'a,b,c' : $game->correct_letters) }}</td>
+                                    <td>{{ proccessKeyword($game->keyword, $game->correct_letters ?: '') }}</td>
                                     <td>
                                         <div class="progress mb-2">
                                             <div class="progress-bar bg-danger" role="progressbar"
-                                                 style="width: {{ calcPercentage($game->keyword, 'a,b,c') }}%">
+                                                 style="width: {{ calcPercentage($game->keyword, $game->correct_letters ?: '') }}%">
                                             </div>
                                         </div>
-                                        {{ calcPercentage($game->keyword, 'a,b,c', true) }} Letras Encontradas
+                                        {{ calcPercentage($game->keyword, $game->correct_letters ?: '', true) }} Letras Encontradas
                                     </td>
                                     <td class="d-flex justify-content-around align-items-center">
                                         <a style="width: 45%" class="btn btn-default" wire:navigate
