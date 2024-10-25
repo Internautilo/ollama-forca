@@ -21,8 +21,13 @@ class UserForm extends Form
     {
         $this->validate();
 
+        $user = User::where('email', $this->email)->first();
+        if (!is_null($user)) {
+            $this->addError('email', 'E-mail já está cadastrado!');
+            return;
+        }
         User::create($this->all());
-        redirect()->route('home');
+        return redirect()->route('home');
     }
 
     public function rules()
