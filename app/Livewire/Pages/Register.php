@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Pages;
 
+use App\Livewire\Forms\UserForm;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -12,16 +14,11 @@ class Register extends Component
         'save' => 'saveUser',
     ];
 
-    public function saveUser(string $name = null, string $email = null, string $password = null)
+    public UserForm $form;
+
+    public function saveUser()
     {
-        if ($name && $email && $password) {
-            User::create([
-                'name' => $name,
-                'email' => $email,
-                'password' => Hash::make($password),
-            ]);
-            $this->redirectRoute('home');
-        }
+        $this->form->save();
     }
 
     public function render()

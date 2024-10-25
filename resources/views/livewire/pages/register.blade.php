@@ -5,25 +5,22 @@
         </div>
 
 
-        <form id="quickForm" novalidate="novalidate">
+        <form id="quickForm" wire:submit="saveUser">
             <div class="card-body">
                 <div class="form-group">
                     <label for="name">Nome</label>
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Digite seu nome">
+                    <input type="text" wire:model.blur="form.name" class="form-control" id="name" placeholder="Digite seu nome">
+                    @error('form.name') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-group">
                     <label for="email">Email address</label>
-                    <input type="email" name="email" class="form-control" id="email" placeholder="Enter email">
+                    <input type="email" wire:model.blur="form.email" class="form-control" id="email" placeholder="Digite seu email">
+                    @error('form.email') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="form-group mb-0">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
-                        <label class="custom-control-label" for="exampleCheck1">Eu concordo com os <a href="#">termos de serviço</a>.</label>
-                    </div>
+                    <input type="password" wire:model.blur="form.password" class="form-control" id="password" placeholder="Digite sua senha">
+                    @error('form.password') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -33,24 +30,3 @@
         </form>
     </div>
 </div>
-
-@script
-<script>
-    $('#quickForm').on('submit', () => {
-
-        Swal.fire({
-            icon: 'success',
-            title: 'Cadastrado com sucesso!',
-            timerProgressBar: true,
-            showConfirmButton: true,
-            showCancelButton: false,
-        }).then((result) => {
-            Livewire.find('{{ $this->id() }}').dispatch('save', {
-                name: $('#name').val(),
-                email: $('#email').val(),
-                password: $('password').val(),
-            });
-        });
-    });
-</script>
-@endscript

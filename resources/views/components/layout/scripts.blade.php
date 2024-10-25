@@ -2,6 +2,8 @@
 
 <!-- jQuery -->
 <script data-navigate-once src="{{asset('AdminLTE/plugins/jquery/jquery.min.js')}}"></script>
+<script data-navigate-once src="{{asset('AdminLTE/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+<script data-navigate-once src="{{asset('AdminLTE/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 <!-- Bootstrap 4 -->
 <script data-navigate-once src="{{asset('AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
