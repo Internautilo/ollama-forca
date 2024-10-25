@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -29,6 +30,22 @@ class UserForm extends Form
         User::create($this->all());
         return redirect()->route('home');
     }
+
+    public function login()
+    {
+        $this->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+
+        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+            return redirect()->route('home')->with('success', 'Login realizado com sucesso.');
+        } else {
+            $this->addError('email', 'E-mail ou senha incorretos.');
+            return;
+        }
+    }
+
 
     public function rules()
     {
