@@ -39,6 +39,8 @@ class UserForm extends Form
         ]);
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+            $user =Auth::user();
+            session()->put('user', $user);
             return redirect()->route('home')->with('success', 'Login realizado com sucesso.');
         } else {
             $this->addError('email', 'E-mail ou senha incorretos.');

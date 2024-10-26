@@ -6,6 +6,8 @@ use App\Livewire\Pages\Login;
 use App\Livewire\Pages\NewGameForm;
 use App\Livewire\Pages\PlayGame;
 use App\Livewire\Pages\Register;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('home');
@@ -20,3 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
 // Auth
 Route::get('/register', Register::class)->name('register');
 Route::get('/login', Login::class)->name('login');
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect()->route('home');
+})->name('logout');

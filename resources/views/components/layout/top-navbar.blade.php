@@ -67,14 +67,26 @@
         </div>
 
         <!-- Right navbar links -->
-        <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-            <li class="nav-item">
-                <a href="{{ route('register') }}">Cadastrar</a>
-            </li>
-            <li class="nav-item mx-1"> | </li>
-            <li class="nav-item">
-                <a href="">Login</a>
-            </li>
-        </ul>
+        @if(!Auth::check())
+            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                <li class="nav-item">
+                    <a href="{{ route('register') }}">Cadastrar</a>
+                </li>
+                <li class="nav-item mx-1"> | </li>
+                <li class="nav-item">
+                    <a href="{{ route('login') }}">Login</a>
+                </li>
+            </ul>
+        @else
+            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                <li class="nav-item">
+                    {{ session()->get('user')->name }}
+                </li>
+                <li class="nav-item mx-1"> | </li>
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}">Logout</a>
+                </li>
+            </ul>
+        @endif
     </div>
 </nav>
