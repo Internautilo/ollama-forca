@@ -35,16 +35,15 @@ class UserForm extends Form
     {
         $this->validate([
             'email' => 'required|email',
-            'password' => 'required|min:8',
+            'password' => 'required',
         ]);
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            $user =Auth::user();
+            $user = Auth::user();
             session()->put('user', $user);
             return redirect()->route('home')->with('success', 'Login realizado com sucesso.');
         } else {
-            $this->addError('email', 'E-mail ou senha incorretos.');
-            return;
+            return $this->addError('email', 'E-mail ou senha incorretos.');
         }
     }
 
