@@ -23,7 +23,7 @@ class ListGames extends Component
 
     private function loadGames():void
     {
-        $this->games = Game::All();
+        $this->games = Game::where(['user_id' => auth()->id()])->get();
     }
 
     public function deleteGame($id): void
