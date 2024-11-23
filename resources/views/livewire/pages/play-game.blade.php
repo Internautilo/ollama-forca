@@ -40,11 +40,12 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                 <div class="d-flex justify-content-center align-items-center mb-2">
                     <h2 id="keyword">{{ proccessKeyword($game->keyword, ($game->correct_letters) ?: '') }}</h2>
                 </div>
-                <div class="mb-1">
-                    <strong>Dica: </strong> {{ $game->tips }}
+                <div class="mb-1 d-flex justify-content-between">
+                    <span><strong>Dica: </strong> {{ $extraTip ?: $this->game->tips }}</span>
+                    <span><button type="button" class="btn btn-sm btn-primary" wire:click="askTip">Pedir mais dicas</button></span>
                 </div>
                 <div class="form-group d-flex justify-content-center">
-                    <input type="hidden" id="key" name="key" class="input" placeholder="Tap on the virtual keyboard to start" />
+                    <input type="hidden" id="key" name="key" class="input" />
                     <div class="simple-keyboard"></div>
                 </div>
             </div>
@@ -53,7 +54,7 @@ function proccessKeyword(string $keyword, string $foundLetters): string
 </div>
 
 @script
-<script>
+<script data-navigate-once >
     const keyword = '{{ $game->keyword }}';
     let toastString = '{{ (!empty($_REQUEST['toast'])) ? $_REQUEST['toast'] : '' }}';
     toastString = decodeHtmlEntities(toastString);
@@ -138,11 +139,7 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                 toast: JSON.stringify({
                     icon: 'success',
                     title: 'Voce acertou!',
-                    toast: true,
-                    position: 'top-end',
-                    timer: 1500,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
+                    showConfirmButton: true,
                 }),
             });
         } else {
@@ -151,27 +148,27 @@ function proccessKeyword(string $keyword, string $foundLetters): string
                 toast: JSON.stringify({
                     icon: 'error',
                     title: 'Tente novamente!',
-                    toast: true,
-                    position: 'top-end',
-                    timer: 1500,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
+                    showConfirmButton: true,
                 }),
             });
         }
-    }
-
-    function onChange(input) {
-        myKeyboard.clearInput();
-        replaceLetter(input);
+        Swal.fire({
+           icon: 'warning',
+           title: 'Carregando',
+           toast: false,
+           showConfirmButton: false,
+        }).then(() => {
+            myKeyboard.destroy();
+        });
     }
 
     function onKeyPress(button) {
+        myKeyboard.clearInput();
+        replaceLetter(button);
     }
 
     const Keyboard = window.SimpleKeyboard.default;
     const myKeyboard = new Keyboard({
-        onChange: input => onChange(input),
         onKeyPress: button => onKeyPress(button),
         layout: {
             'default': [
@@ -198,3 +195,4 @@ function proccessKeyword(string $keyword, string $foundLetters): string
 
 </script>
 @endscript
+

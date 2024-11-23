@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages;
 
+use App\Http\Controllers\Api\OllamaApi;
 use App\Models\Game;
 use Livewire\Component;
 
@@ -10,6 +11,7 @@ class PlayGame extends Component
     public string|int $id;
     public Game $game;
     public string $toast;
+    public string $extraTip;
 
     public $listeners = [
         'redirect-to-route' => 'redirectRoute',
@@ -18,7 +20,7 @@ class PlayGame extends Component
         'go-back-on-finish' => 'goBackOnFinish',
     ];
 
-    public function mount($id = null, $toast = null)
+    public function mount($id = null, $toast = null): void
     {
         if (is_null($id)) {
             $this->redirectRoute('list-games');
@@ -55,6 +57,10 @@ class PlayGame extends Component
 
         $this->game->tries = $letters;
         $this->game->save();
+        $toast = json_decode($toast, true);
+        $this->askTip();
+        $toast['title'] = $this->extraTip;
+        $toast = json_encode($toast);
         $this->redirectRoute('game', ['id' => $this->id, 'toast' => $toast], navigate: true);
     }
 
@@ -73,5 +79,13 @@ class PlayGame extends Component
         $this->game->save();
 
         $this->redirectRoute('list-games', navigate: true);
+    }
+
+    public function askTip(string $letter = null): void
+    {
+        $systemRole = 'O usuário está jogando jogo da forca, dê uma dica para ele. O usuário vai te dar a palavra.'. ($letter ? 'A letra selecionada foi: '.$letter : '') .'. O tema usado para escolher a palavra foi: '. $this->game->theme .'. VOCÊ NÃO PODE FALAR A KEYWORD. Me retorne APENAS um json com os seguintes dados: {tips: "string (dicas para a keyword)"}';
+        $response = OllamaApi::Prompt($this->game->keyword, $systemRole);
+        $response = json_decode($response, true);
+        $this->extraTip = $response['tips'];
     }
 }

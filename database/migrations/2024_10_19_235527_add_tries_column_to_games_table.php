@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('games', function (Blueprint $table) {
-            $table->string('tries', 32)->after('correct_letters')->default(0);
+            $table->string('tries', 32)->after('correct_letters')->default('');
         });
     }
 
